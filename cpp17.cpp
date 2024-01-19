@@ -3,6 +3,7 @@
 #include <iterator>
 #include <ostream>
 #include <string>
+#include <string_view>
 #include <tuple>
 #include <vector>
 
@@ -181,6 +182,46 @@ void learn_containers() {
   print_vector(vector);
 }
 
+void foo(const std::string& str) {}
+
+void foo2(std::string&& str) {}
+
+class Foo {
+ public:
+  Foo() { std::cout << "construcor" << std::endl; }
+
+  Foo(const Foo&) { std::cout << "copy construcor" << std::endl; }
+
+  Foo(Foo&) { std::cout << "construcor 3" << std::endl; }
+  Foo(Foo&&) { std::cout << "construcor 4" << std::endl; }
+
+  Foo& operator=(const Foo& other) {
+    std::cout << "copy!" << std::endl;
+    return *this;
+  };
+
+  Foo& operator=(Foo&& other) {
+    std::cout << "move assign!" << std::endl;
+    return *this;
+  }
+};
+
+void learn_string_view() {
+  Foo f0;
+  Foo f;
+  std::cout << "_____" << std::endl;
+  f = std::move(f0);
+  // f = f0;
+  // int i = 0;
+  // int &&k = i;
+  // //
+  // std::string str("foo");
+  // foo(str);
+  // std::cout << str << std::endl;
+  // foo2(str);
+  // std::cout << str << std::endl;
+}
+
 int main() {
   learn_structured_binding();
   learn_initialize_variable_in_if();
@@ -190,4 +231,6 @@ int main() {
   learn_containers();
 
   std::cout << "--------------------------------------------" << std::endl;
+
+  learn_string_view();
 }
